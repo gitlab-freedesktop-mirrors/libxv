@@ -22,6 +22,7 @@ SOFTWARE.
 
 ******************************************************************/
 /* $XFree86: xc/lib/Xv/Xv.c,v 1.17 2003/04/28 16:56:27 dawes Exp $ */
+/* $XdotOrg: xc/lib/Xv/Xv.c,v 1.1.4.2.4.1 2004/03/04 17:47:00 eich Exp $ */
 /*
 ** File: 
 **
@@ -395,6 +396,7 @@ XvQueryEncodings(
   *p_nEncodings = rep.num_encodings;
   *p_pEncodings = pes;
 
+  Xfree(buffer);
   UnlockDisplay(dpy);
   SyncHandle();
 
