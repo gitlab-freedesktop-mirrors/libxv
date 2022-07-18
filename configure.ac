@@ -40,7 +40,7 @@ XORG_MACROS_VERSION(1.8)
 XORG_DEFAULT_OPTIONS
 XORG_CHECK_MALLOC_ZERO
 
-# Obtain compiler/linker options for depedencies
+# Obtain compiler/linker options for dependencies
 PKG_CHECK_MODULES(XV, [x11 >= 1.6 xext xextproto videoproto])
 
 # Allow checking code with lint, sparse, etc.
