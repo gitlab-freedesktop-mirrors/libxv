@@ -156,12 +156,10 @@ XvQueryAdaptors(
     xvQueryAdaptorsReq *req;
     xvQueryAdaptorsReply rep;
     size_t size;
-    unsigned int ii, jj;
-    char *name;
-    char *end;
     XvAdaptorInfo *pas = NULL, *pa;
     XvFormat *pfs, *pf;
     char *buffer = NULL;
+    char *end;
     union {
         char *buffer;
         char *string;
@@ -215,7 +213,7 @@ XvQueryAdaptors(
     /* INIT ADAPTOR FIELDS */
 
     pa = pas;
-    for (ii = 0; ii < rep.num_adaptors; ii++) {
+    for (unsigned int ii = 0; ii < rep.num_adaptors; ii++) {
         pa->num_adaptors = 0;
         pa->name = (char *) NULL;
         pa->formats = (XvFormat *) NULL;
@@ -223,7 +221,9 @@ XvQueryAdaptors(
     }
 
     pa = pas;
-    for (ii = 0; ii < rep.num_adaptors; ii++) {
+    for (unsigned int ii = 0; ii < rep.num_adaptors; ii++) {
+        char *name;
+
         if (u.buffer + sz_xvAdaptorInfo > end) {
             status = XvBadReply;
             goto out;
@@ -262,7 +262,7 @@ XvQueryAdaptors(
         }
 
         pf = pfs;
-        for (jj = 0; jj < pa->num_formats; jj++) {
+        for (unsigned int jj = 0; jj < pa->num_formats; jj++) {
             if (u.buffer + sz_xvFormat > end) {
                 Xfree(pfs);
                 status = XvBadReply;
@@ -304,14 +304,13 @@ void
 XvFreeAdaptorInfo(XvAdaptorInfo *pAdaptors)
 {
     XvAdaptorInfo *pa;
-    unsigned int ii;
 
     if (!pAdaptors)
         return;
 
     pa = pAdaptors;
 
-    for (ii = 0; ii < pAdaptors->num_adaptors; ii++, pa++) {
+    for (unsigned int ii = 0; ii < pAdaptors->num_adaptors; ii++, pa++) {
         if (pa->name) {
             Xfree(pa->name);
         }
@@ -334,11 +333,9 @@ XvQueryEncodings(
     xvQueryEncodingsReq *req;
     xvQueryEncodingsReply rep;
     size_t size;
-    unsigned int jj;
-    char *name;
-    char *end;
     XvEncodingInfo *pes = NULL, *pe;
     char *buffer = NULL;
+    char *end;
     union {
         char *buffer;
         char *string;
@@ -391,14 +388,16 @@ XvQueryEncodings(
     /* INITIALIZE THE ENCODING POINTER */
 
     pe = pes;
-    for (jj = 0; jj < rep.num_encodings; jj++) {
+    for (unsigned int jj = 0; jj < rep.num_encodings; jj++) {
         pe->name = (char *) NULL;
         pe->num_encodings = 0;
         pe++;
     }
 
     pe = pes;
-    for (jj = 0; jj < rep.num_encodings; jj++) {
+    for (unsigned int jj = 0; jj < rep.num_encodings; jj++) {
+        char *name;
+
         if (u.buffer + sz_xvEncodingInfo > end) {
             status = XvBadReply;
             goto out;
@@ -451,14 +450,13 @@ void
 XvFreeEncodingInfo(XvEncodingInfo *pEncodings)
 {
     XvEncodingInfo *pe;
-    unsigned long ii;
 
     if (!pEncodings)
         return;
 
     pe = pEncodings;
 
-    for (ii = 0; ii < pEncodings->num_encodings; ii++, pe++) {
+    for (unsigned long ii = 0; ii < pEncodings->num_encodings; ii++, pe++) {
         if (pe->name)
             Xfree(pe->name);
     }
@@ -865,11 +863,11 @@ XvQueryPortAttributes(Display *dpy, XvPortID port, int *num)
      */
 
     if (rep.num_attributes) {
-        unsigned long size;
-
         /* limit each part to no more than one half the max size */
         if ((rep.num_attributes < ((INT_MAX / 2) / sizeof(XvAttribute))) &&
             (rep.text_size < (INT_MAX / 2) - 1)) {
+            unsigned long size;
+
             size = (rep.num_attributes * sizeof(XvAttribute)) +
 		rep.text_size + 1;
             ret = Xmalloc(size);
@@ -878,12 +876,11 @@ XvQueryPortAttributes(Display *dpy, XvPortID port, int *num)
         if (ret != NULL) {
             char *marker = (char *) (&ret[rep.num_attributes]);
             xvAttributeInfo Info;
-            unsigned int i;
 
             /* keep track of remaining room for text strings */
-            size = rep.text_size;
+            unsigned long size = rep.text_size;
 
-            for (i = 0; i < rep.num_attributes; i++) {
+            for (unsigned int i = 0; i < rep.num_attributes; i++) {
                 _XRead(dpy, (char *) (&Info), sz_xvAttributeInfo);
                 ret[i].flags = (int) Info.flags;
                 ret[i].min_value = Info.min;
@@ -940,10 +937,9 @@ XvListImageFormats(Display *dpy, XvPortID port, int *num)
             ret = Xmalloc(rep.num_formats * sizeof(XvImageFormatValues));
 
         if (ret != NULL) {
-            xvImageFormatInfo Info;
-            unsigned int i;
+            for (unsigned int i = 0; i < rep.num_formats; i++) {
+                xvImageFormatInfo Info;
 
-            for (i = 0; i < rep.num_formats; i++) {
                 _XRead(dpy, (char *) (&Info), sz_xvImageFormatInfo);
                 ret[i].id = Info.id;
                 ret[i].type = Info.type;
