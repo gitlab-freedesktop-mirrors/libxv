@@ -132,9 +132,9 @@ XvQueryExtension(
 
     *p_version = rep.version;
     *p_revision = rep.revision;
-    *p_requestBase = info->codes->major_opcode;
-    *p_eventBase = info->codes->first_event;
-    *p_errorBase = info->codes->first_error;
+    *p_requestBase = (unsigned int) info->codes->major_opcode;
+    *p_eventBase = (unsigned int) info->codes->first_event;
+    *p_errorBase = (unsigned int) info->codes->first_error;
 
     status = Success;
 
@@ -173,7 +173,7 @@ XvQueryAdaptors(
     LockDisplay(dpy);
 
     XvGetReq(QueryAdaptors, req);
-    req->window = window;
+    req->window = (CARD32) window;
 
     /* READ THE REPLY */
 
@@ -228,7 +228,7 @@ XvQueryAdaptors(
             status = XvBadReply;
             goto out;
         }
-        pa->type = u.pa->type;
+        pa->type = (char) u.pa->type;
         pa->base_id = u.pa->base_id;
         pa->num_ports = u.pa->num_ports;
         pa->num_formats = u.pa->num_formats;
@@ -268,7 +268,7 @@ XvQueryAdaptors(
                 status = XvBadReply;
                 goto out;
             }
-            pf->depth = u.pf->depth;
+            pf->depth = (char) u.pf->depth;
             pf->visual_id = u.pf->visual;
             pf++;
 
@@ -348,7 +348,7 @@ XvQueryEncodings(
     LockDisplay(dpy);
 
     XvGetReq(QueryEncodings, req);
-    req->port = port;
+    req->port = (CARD32) port;
 
     /* READ THE REPLY */
 
@@ -486,17 +486,17 @@ XvPutVideo(
 
     XvGetReq(PutVideo, req);
 
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->vid_x = vx;
-    req->vid_y = vy;
-    req->vid_w = vw;
-    req->vid_h = vh;
-    req->drw_x = dx;
-    req->drw_y = dy;
-    req->drw_w = dw;
-    req->drw_h = dh;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->vid_x = (INT16) vx;
+    req->vid_y = (INT16) vy;
+    req->vid_w = (CARD16) vw;
+    req->vid_h = (CARD16) vh;
+    req->drw_x = (INT16) dx;
+    req->drw_y = (INT16) dy;
+    req->drw_w = (CARD16) dw;
+    req->drw_h = (CARD16) dh;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -525,17 +525,17 @@ XvPutStill(
     FlushGC(dpy, gc);
 
     XvGetReq(PutStill, req);
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->vid_x = vx;
-    req->vid_y = vy;
-    req->vid_w = vw;
-    req->vid_h = vh;
-    req->drw_x = dx;
-    req->drw_y = dy;
-    req->drw_w = dw;
-    req->drw_h = dh;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->vid_x = (INT16) vx;
+    req->vid_y = (INT16) vy;
+    req->vid_w = (CARD16) vw;
+    req->vid_h = (CARD16) vh;
+    req->drw_x = (INT16) dx;
+    req->drw_y = (INT16) dy;
+    req->drw_w = (CARD16) dw;
+    req->drw_h = (CARD16) dh;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -564,17 +564,17 @@ XvGetVideo(
     FlushGC(dpy, gc);
 
     XvGetReq(GetVideo, req);
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->vid_x = vx;
-    req->vid_y = vy;
-    req->vid_w = vw;
-    req->vid_h = vh;
-    req->drw_x = dx;
-    req->drw_y = dy;
-    req->drw_w = dw;
-    req->drw_h = dh;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->vid_x = (INT16) vx;
+    req->vid_y = (INT16) vy;
+    req->vid_w = (CARD16) vw;
+    req->vid_h = (CARD16) vh;
+    req->drw_x = (INT16) dx;
+    req->drw_y = (INT16) dy;
+    req->drw_w = (CARD16) dw;
+    req->drw_h = (CARD16) dh;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -603,17 +603,17 @@ XvGetStill(
     FlushGC(dpy, gc);
 
     XvGetReq(GetStill, req);
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->vid_x = vx;
-    req->vid_y = vy;
-    req->vid_w = vw;
-    req->vid_h = vh;
-    req->drw_x = dx;
-    req->drw_y = dy;
-    req->drw_w = dw;
-    req->drw_h = dh;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->vid_x = (INT16) vx;
+    req->vid_y = (INT16) vy;
+    req->vid_w = (CARD16) vw;
+    req->vid_h = (CARD16) vh;
+    req->drw_x = (INT16) dx;
+    req->drw_y = (INT16) dy;
+    req->drw_w = (CARD16) dw;
+    req->drw_h = (CARD16) dh;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -632,8 +632,8 @@ XvStopVideo(Display *dpy, XvPortID port, Drawable draw)
     LockDisplay(dpy);
 
     XvGetReq(StopVideo, req);
-    req->port = port;
-    req->drawable = draw;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) draw;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -654,8 +654,8 @@ XvGrabPort(Display *dpy, XvPortID port, Time time)
     LockDisplay(dpy);
 
     XvGetReq(GrabPort, req);
-    req->port = port;
-    req->time = time;
+    req->port = (CARD32) port;
+    req->time = (CARD32) time;
 
     if (_XReply(dpy, (xReply *) &rep, 0, xTrue) == 0)
         rep.result = GrabSuccess;
@@ -679,8 +679,8 @@ XvUngrabPort(Display *dpy, XvPortID port, Time time)
     LockDisplay(dpy);
 
     XvGetReq(UngrabPort, req);
-    req->port = port;
-    req->time = time;
+    req->port = (CARD32) port;
+    req->time = (CARD32) time;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -699,8 +699,8 @@ XvSelectVideoNotify(Display *dpy, Drawable drawable, Bool onoff)
     LockDisplay(dpy);
 
     XvGetReq(SelectVideoNotify, req);
-    req->drawable = drawable;
-    req->onoff = onoff;
+    req->drawable = (CARD32) drawable;
+    req->onoff = (BOOL) onoff;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -719,8 +719,8 @@ XvSelectPortNotify(Display *dpy, XvPortID port, Bool onoff)
     LockDisplay(dpy);
 
     XvGetReq(SelectPortNotify, req);
-    req->port = port;
-    req->onoff = onoff;
+    req->port = (CARD32) port;
+    req->onoff = (BOOL) onoff;
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -739,8 +739,8 @@ XvSetPortAttribute(Display *dpy, XvPortID port, Atom attribute, int value)
     LockDisplay(dpy);
 
     XvGetReq(SetPortAttribute, req);
-    req->port = port;
-    req->attribute = attribute;
+    req->port = (CARD32) port;
+    req->attribute = (CARD32) attribute;
     req->value = value;
 
     UnlockDisplay(dpy);
@@ -762,8 +762,8 @@ XvGetPortAttribute(Display *dpy, XvPortID port, Atom attribute, int *p_value)
     LockDisplay(dpy);
 
     XvGetReq(GetPortAttribute, req);
-    req->port = port;
-    req->attribute = attribute;
+    req->port = (CARD32) port;
+    req->attribute = (CARD32) attribute;
 
     /* READ THE REPLY */
 
@@ -803,12 +803,12 @@ XvQueryBestSize(
     LockDisplay(dpy);
 
     XvGetReq(QueryBestSize, req);
-    req->port = port;
-    req->motion = motion;
-    req->vid_w = vid_w;
-    req->vid_h = vid_h;
-    req->drw_w = drw_w;
-    req->drw_h = drw_h;
+    req->port = (CARD32) port;
+    req->motion = (CARD8) motion;
+    req->vid_w = (CARD16) vid_w;
+    req->vid_h = (CARD16) vid_h;
+    req->drw_w = (CARD16) drw_w;
+    req->drw_h = (CARD16) drw_h;
 
     /* READ THE REPLY */
 
@@ -843,7 +843,7 @@ XvQueryPortAttributes(Display *dpy, XvPortID port, int *num)
     LockDisplay(dpy);
 
     XvGetReq(QueryPortAttributes, req);
-    req->port = port;
+    req->port = (CARD32) port;
 
     /* READ THE REPLY */
 
@@ -924,7 +924,7 @@ XvListImageFormats(Display *dpy, XvPortID port, int *num)
     LockDisplay(dpy);
 
     XvGetReq(ListImageFormats, req);
-    req->port = port;
+    req->port = (CARD32) port;
 
     /* READ THE REPLY */
 
@@ -941,7 +941,7 @@ XvListImageFormats(Display *dpy, XvPortID port, int *num)
                 xvImageFormatInfo Info;
 
                 _XRead(dpy, (char *) (&Info), sz_xvImageFormatInfo);
-                ret[i].id = Info.id;
+                ret[i].id = (int) Info.id;
                 ret[i].type = Info.type;
                 ret[i].byte_order = Info.byte_order;
                 memcpy(&(ret[i].guid[0]), &(Info.guid[0]), 16);
@@ -996,10 +996,10 @@ XvCreateImage(
     LockDisplay(dpy);
 
     XvGetReq(QueryImageAttributes, req);
-    req->id = id;
-    req->port = port;
-    req->width = width;
-    req->height = height;
+    req->id = (CARD32) id;
+    req->port = (CARD32) port;
+    req->width = (CARD16) width;
+    req->height = (CARD16) height;
 
     /* READ THE REPLY */
 
@@ -1014,8 +1014,8 @@ XvCreateImage(
         ret->id = id;
         ret->width = rep.width;
         ret->height = rep.height;
-        ret->data_size = rep.data_size;
-        ret->num_planes = rep.num_planes;
+        ret->data_size = (int) rep.data_size;
+        ret->num_planes = (int) rep.num_planes;
         ret->pitches = (int *) (&ret[1]);
         ret->offsets = ret->pitches + rep.num_planes;
         ret->data = data;
@@ -1077,20 +1077,20 @@ XvPutImage(
 
     XvGetReq(PutImage, req);
 
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->id = image->id;
-    req->src_x = src_x;
-    req->src_y = src_y;
-    req->src_w = src_w;
-    req->src_h = src_h;
-    req->drw_x = dest_x;
-    req->drw_y = dest_y;
-    req->drw_w = dest_w;
-    req->drw_h = dest_h;
-    req->width = image->width;
-    req->height = image->height;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->id = (CARD32) image->id;
+    req->src_x = (INT16) src_x;
+    req->src_y = (INT16) src_y;
+    req->src_w = (CARD16) src_w;
+    req->src_h = (CARD16) src_h;
+    req->drw_x = (INT16) dest_x;
+    req->drw_y = (INT16) dest_y;
+    req->drw_w = (CARD16) dest_w;
+    req->drw_h = (CARD16) dest_h;
+    req->width = (CARD16) image->width;
+    req->height = (CARD16) image->height;
 
     len = ((unsigned int) image->data_size + 3) >> 2;
     SetReqLen(req, len, len);
@@ -1132,23 +1132,23 @@ XvShmPutImage(
 
     XvGetReq(ShmPutImage, req);
 
-    req->port = port;
-    req->drawable = d;
-    req->gc = gc->gid;
-    req->shmseg = shminfo->shmseg;
-    req->id = image->id;
-    req->src_x = src_x;
-    req->src_y = src_y;
-    req->src_w = src_w;
-    req->src_h = src_h;
-    req->drw_x = dest_x;
-    req->drw_y = dest_y;
-    req->drw_w = dest_w;
-    req->drw_h = dest_h;
-    req->offset = image->data - shminfo->shmaddr;
-    req->width = image->width;
-    req->height = image->height;
-    req->send_event = send_event;
+    req->port = (CARD32) port;
+    req->drawable = (CARD32) d;
+    req->gc = (CARD32) gc->gid;
+    req->shmseg = (CARD32) shminfo->shmseg;
+    req->id = (CARD32) image->id;
+    req->src_x = (INT16) src_x;
+    req->src_y = (INT16) src_y;
+    req->src_w = (CARD16) src_w;
+    req->src_h = (CARD16) src_h;
+    req->drw_x = (INT16) dest_x;
+    req->drw_y = (INT16) dest_y;
+    req->drw_w = (CARD16) dest_w;
+    req->drw_h = (CARD16) dest_h;
+    req->offset = (CARD32) (image->data - shminfo->shmaddr);
+    req->width = (CARD16) image->width;
+    req->height = (CARD16) image->height;
+    req->send_event = (CARD8) send_event;
 
     UnlockDisplay(dpy);
     SyncHandle();
