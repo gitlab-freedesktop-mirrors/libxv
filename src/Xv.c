@@ -357,6 +357,10 @@ XvQueryEncodings(
         }
         _XRead(dpy, buffer, (long) size);
     }
+    else if (rep.num_encodings != 0) {
+        status = XvBadReply;
+        goto out;
+    }
 
     /* GET ENCODINGS */
 
