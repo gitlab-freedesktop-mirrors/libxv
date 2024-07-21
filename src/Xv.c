@@ -192,6 +192,10 @@ XvQueryAdaptors(
         }
         _XRead(dpy, buffer, (long) size);
     }
+    else if (rep.num_adaptors != 0) {
+        status = XvBadReply;
+        goto out;
+    }
 
     /* GET INPUT ADAPTORS */
 
