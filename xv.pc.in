@@ -1,12 +1,13 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
-libdir=@libdir@
 includedir=@includedir@
+libdir=@libdir@
 
 Name: Xv
 Description: The Xv Library
+URL: https://gitlab.freedesktop.org/xorg/lib/libxv/
 Version: @PACKAGE_VERSION@
-Requires: xproto videoproto
-Requires.private: x11 xext
-Cflags: -I${includedir}
+Requires: xproto, videoproto
+Requires.private: x11 >=  1.6, xext
 Libs: -L${libdir} -lXv
+Cflags: -I${includedir}
